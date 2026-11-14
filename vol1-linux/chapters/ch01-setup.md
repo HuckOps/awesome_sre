@@ -144,7 +144,7 @@ VMware Workstation Pro 个人非商业用途免费。
 
 ---
 
-## 1.7 安装 VMware Tools（推荐）
+## 1.7 安装 VMware Tools（推荐、可选）
 
 VMware Tools 能改善显示分辨率、剪贴板共享、文件拖拽等体验。
 
