@@ -1,3 +1,7 @@
+﻿---
+title: "第 9 章 软件包管理：apt 与 dpkg"
+---
+
 # 第 9 章 软件包管理：apt 与 dpkg
 
 > 前八章我们学会了看文件、管进程，但有一件事还没碰：**软件是怎么进到系统里去的**。看到教程里写 `apt install nginx` 就照抄，是新手常态；抄完一出错只会重装系统，是新手困境。这一章把 apt 和 dpkg 这套「软件包管理（Package Management）」体系讲透——装、卸、查、锁、清理，全流程都覆盖。能不能管好一台生产服务器上的软件，很大程度上就看这一章的基本功。
@@ -659,6 +663,7 @@ dpkg -i xxx.deb + apt --fix-broken install   # 本地 deb 两步舞
 > 4. `dpkg -S /usr/bin/env` 指向 `coreutils` 包（以你的机器为准）；`dpkg -L coreutils` 会列出几十个基础命令——它是「GNU 核心工具集」，系统最基础的一批命令都来自它。
 > 5. hold 后 `apt upgrade` 输出里出现 `The following packages have been kept back: hello`；unhold 后恢复正常。
 > 6. 缓存变小、`apt autoclean` 只删过期 deb；空间变化以你的机器为准，重点是把「apt 缓存也是磁盘占用大户」建立成条件反射。
+
 
 
 

@@ -1,3 +1,7 @@
+﻿---
+title: "第 6 章 文本处理：grep / sed / awk"
+---
+
 # 第 6 章 文本处理：grep / sed / awk
 
 > 上一章我们守好了家门：谁、能对哪些文件、做什么。可开机之后，一个 SRE 真正耗时的地方不一定在"权限"，而在"读字"——凌晨三点告警来了，你要从几万行日志里捞出那几行关键信息；要给机房所有机器统一改一个配置项；要在容器编排的 YAML 里批量关闭某个开关。这些活的共同点是：对象全是纯文本。这一章把 Linux 最锋利的三把刀交给你：`grep` 负责找，`sed` 负责改，`awk` 负责算。
@@ -679,3 +683,4 @@ sed -i.bak 's/old/new/g' file                                        # 带备份
 > 4. `awk '{s+=$10} END {printf "%d %.2f\n", s, s/NR}' access.log`。`wc -c access.log` 数的是整个文件的全部字节（含时间戳、引号、UA 文本），当然远大于纯响应体大小的合计，两者口径不同，没有可比性。
 > 5. `diff -u a.conf b.conf > change.patch`，`patch a.conf < change.patch`（输出 `patching file a.conf`），`patch -R a.conf < change.patch`；撤销后 `diff a.conf b.conf` 应当重新显示差异。
 > 6. 关键是两步：`(echo "# $(date) 的统计"; awk '{print $7}' access.log | sort | uniq -c | sort -rn | head -5) >> /data/home/logs/top5.txt`；然后 `sed -i.bak 's/[[:space:]]\+/\t/' /data/home/logs/top5.txt`（`[[:space:]]` 是 POSIX 字符类，`\+` 是 BRE 的"一次或多次"）；`cat -A` 看到 `^I` 即 Tab 生效，`.bak` 是原始备份。
+

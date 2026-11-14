@@ -1,3 +1,7 @@
+﻿---
+title: "附录 C 术语表"
+---
+
 # 附录 C 术语表
 
 本附录收录全卷涉及的约 80 条中英对照术语，按主题分组，每条附一句简短解释。初学者可将其作为阅读全书时的随手查表。
@@ -200,3 +204,4 @@
 | Firecracker | Firecracker | AWS 开源的轻量级微型虚拟机监控程序，InstaBox 基于它。 |
 | microVM | MicroVM | 极小型虚拟机，启动快、隔离性强。 |
 | agent-browser | Agent Browser | InstaBox 默认模板，含 Docker、Node.js、Python 等工具链。 |
+
