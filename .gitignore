@@ -9,3 +9,6 @@ output/
 !vol1-linux/assets/**/*.png
 !vol1-linux/assets/**/*.jpg
 !vol1-linux/assets/**/*.jpeg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
