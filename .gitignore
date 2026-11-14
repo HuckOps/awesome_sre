@@ -1,0 +1,8 @@
+.gitbook/assets/
+.gitbook/
+node_modules/
+docs/
+output/
+*.png
+*.jpg
+*.jpeg

@@ -1,0 +1,48 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+
+site:
+  title: "SRE 运维工程师修炼之路"
+  structure:
+    - type: section
+      key: sre-series
+      title: "SRE 运维工程师修炼之路"
+      path: sre
+      default: true
+      children:
+        - type: space
+          key: vol1-linux
+          title: "第一卷 Linux"
+          path: linux
+          default: true
+          content:
+            directory: ./vol1-linux
+        - type: space
+          key: vol2-network
+          title: "第二卷 网络与系统服务"
+          path: network
+          content:
+            directory: ./vol2-network
+        - type: space
+          key: vol3-database
+          title: "第三卷 数据库与中间件"
+          path: database
+          content:
+            directory: ./vol3-database
+        - type: space
+          key: vol4-docker-k8s
+          title: "第四卷 Docker & Kubernetes"
+          path: docker-k8s
+          content:
+            directory: ./vol4-docker-k8s
+        - type: space
+          key: vol5-observability
+          title: "第五卷 可观测性"
+          path: observability
+          content:
+            directory: ./vol5-observability
+        - type: space
+          key: vol6-sre-practice
+          title: "第六卷 SRE 实战"
+          path: sre-practice
+          content:
+            directory: ./vol6-sre-practice
