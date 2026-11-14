@@ -17,26 +17,64 @@
         "group": "第一卷 Linux",
         "pages": [
           "vol1-linux/README",
-          "vol1-linux/chapters/ch00-intro",
-          "vol1-linux/chapters/ch01-setup",
-          "vol1-linux/chapters/ch02-first-login",
-          "vol1-linux/chapters/ch03-shell-and-fs",
-          "vol1-linux/chapters/ch04-file-ops",
-          "vol1-linux/chapters/ch05-users-permissions",
-          "vol1-linux/chapters/ch06-text-processing",
-          "vol1-linux/chapters/ch07-vim",
-          "vol1-linux/chapters/ch08-processes",
-          "vol1-linux/chapters/ch09-packages",
-          "vol1-linux/chapters/ch10-disk-storage",
-          "vol1-linux/chapters/ch11-network",
-          "vol1-linux/chapters/ch12-systemd",
-          "vol1-linux/chapters/ch13-shell-scripting",
-          "vol1-linux/chapters/ch14-cron-logs",
-          "vol1-linux/chapters/ch15-firewall-backup",
-          "vol1-linux/chapters/ch16-web-server-deploy",
-          "vol1-linux/chapters/app-a-cheatsheet",
-          "vol1-linux/chapters/app-b-shortcuts",
-          "vol1-linux/chapters/app-c-glossary"
+          {
+            "group": "第一篇 导读与准备",
+            "pages": [
+              "vol1-linux/chapters/ch00-intro",
+              "vol1-linux/chapters/ch01-setup",
+              "vol1-linux/chapters/ch02-first-login"
+            ]
+          },
+          {
+            "group": "第二篇 命令行基础",
+            "pages": [
+              "vol1-linux/chapters/ch03-shell-and-fs",
+              "vol1-linux/chapters/ch04-file-ops",
+              "vol1-linux/chapters/ch05-users-permissions"
+            ]
+          },
+          {
+            "group": "第三篇 文本、编辑器与进程",
+            "pages": [
+              "vol1-linux/chapters/ch06-text-processing",
+              "vol1-linux/chapters/ch07-vim",
+              "vol1-linux/chapters/ch08-processes"
+            ]
+          },
+          {
+            "group": "第四篇 软件包与存储",
+            "pages": [
+              "vol1-linux/chapters/ch09-packages",
+              "vol1-linux/chapters/ch10-disk-storage"
+            ]
+          },
+          {
+            "group": "第五篇 网络与服务管理",
+            "pages": [
+              "vol1-linux/chapters/ch11-network",
+              "vol1-linux/chapters/ch12-systemd"
+            ]
+          },
+          {
+            "group": "第六篇 脚本与自动化运维",
+            "pages": [
+              "vol1-linux/chapters/ch13-shell-scripting",
+              "vol1-linux/chapters/ch14-cron-logs",
+              "vol1-linux/chapters/ch15-firewall-backup"
+            ]
+          },
+          {
+            "group": "第七篇 综合实战",
+            "pages": ["vol1-linux/chapters/ch16-web-server-deploy"]
+          },
+          {
+            "group": "附录",
+            "pages": [
+              "vol1-linux/chapters/app-a-cheatsheet",
+              "vol1-linux/chapters/app-b-shortcuts",
+              "vol1-linux/chapters/app-c-glossary"
+            ]
+          }
         ]
       },
       {
