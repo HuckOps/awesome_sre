@@ -65,7 +65,10 @@
           },
           {
             "group": "第七篇 综合实战",
-            "pages": ["vol1-linux/chapters/ch16-web-server-deploy"]
+            "pages": [
+              "vol1-linux/chapters/ch16-web-server-deploy",
+              "vol1-linux/chapters/ch17-vmware-ubuntu-setup"
+            ]
           },
           {
             "group": "附录",
