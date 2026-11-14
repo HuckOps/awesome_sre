@@ -55,36 +55,41 @@ VMware Workstation Pro 个人非商业用途免费。
 
 1. 打开 VMware Workstation Pro，点击 **“创建新的虚拟机”**。
 2. 选择 **典型（推荐）**，点击“下一步”。
-3. 在“安装客户机操作系统”页面，选择 **“稍后安装操作系统”**（稍后手动指定 ISO，更稳妥）。
-4. 客户机操作系统：选择 **Linux**，版本选择 **Ubuntu 64 位**。
-5. **位置：选择非 C 盘目录**，例如：
-   ```
-   D:\Ubuntu 64 位
-   ```
-   **不要放在 C 盘。** 名称保持与位置一致，方便后续区分。
-6. 固件类型：保持默认 BIOS。
-7. 磁盘容量：建议 **40 GB 或以上**，选择 **“将虚拟磁盘存储为多个文件”**。
-8. 点击 **“完成”**。虚拟机会出现在左侧库中，此时尚未启动。
 
 ![新建虚拟机向导第一步：典型与自定义配置](/vol1-linux/assets/ch01/01-vmware-new-vm-wizard.png)
 
 *图 1-1　新建虚拟机向导：选择“典型（推荐）”配置*
 
+3. 在“安装客户机操作系统”页面，选择 **“稍后安装操作系统”**（稍后手动指定 ISO，更稳妥）。
+
 ![安装客户机操作系统：指定 ISO 与稍后安装](/vol1-linux/assets/ch01/02-vmware-iso-select.png)
 
 *图 1-2　选择“稍后安装操作系统”，并记录下 ISO 存放路径 `D:\ISO\ubuntu-26.10-desktop-amd64.iso`*
+
+4. 客户机操作系统：选择 **Linux**，版本选择 **Ubuntu 64 位**。
 
 ![选择客户机操作系统](/vol1-linux/assets/ch01/03-vmware-guest-os.png)
 
 *图 1-3　客户机操作系统选择 Linux → Ubuntu 64 位*
 
+5. **位置：选择非 C 盘目录**，例如：
+   ```
+   D:\Ubuntu 64 位
+   ```
+   **不要放在 C 盘。** 名称保持与位置一致，方便后续区分。
+
 ![命名虚拟机与位置](/vol1-linux/assets/ch01/04-vmware-vm-name-location.png)
 
 *图 1-4　虚拟机名称与“位置”均指向 D 盘，未使用 C 盘*
 
+6. 固件类型：保持默认 BIOS。
+7. 磁盘容量：建议 **40 GB 或以上**，选择 **“将虚拟磁盘存储为多个文件”**。
+
 ![指定磁盘容量](/vol1-linux/assets/ch01/05-vmware-disk-40gb.png)
 
 *图 1-5　磁盘容量 40 GB，存储方式选择“将虚拟磁盘存储为多个文件”*
+
+8. 点击 **"完成"**。虚拟机会出现在左侧库中，此时尚未启动。
 
 ---
 
@@ -95,13 +100,14 @@ VMware Workstation Pro 个人非商业用途免费。
    ```
    D:\ISO\ubuntu-26.10-desktop-amd64.iso
    ```
-3. 同时确认右侧硬件列表中：处理器 **2** 个内核、内存 **4096 MB**、网络适配器 **NAT**、硬盘 **SCSI 40 GB**。
-4. 勾选 **“启动时连接”**，点击 **“确定”**。
-5. 点击 **“开启此虚拟机”**，Ubuntu 安装程序会从 ISO 启动。
 
 ![虚拟机设置：CD/DVD 挂载 ISO](/vol1-linux/assets/ch01/06-vmware-vm-settings-iso.png)
 
 *图 1-6　虚拟机设置中 CD/DVD 已指向本地 ISO 映像文件，右侧可见硬件配置清单*
+
+3. 同时确认右侧硬件列表中：处理器 **2** 个内核、内存 **4096 MB**、网络适配器 **NAT**、硬盘 **SCSI 40 GB**。
+4. 勾选 **“启动时连接”**，点击 **“确定”**。
+5. 点击 **“开启此虚拟机”**，Ubuntu 安装程序会从 ISO 启动。
 
 ---
 
@@ -111,18 +117,20 @@ VMware Workstation Pro 个人非商业用途免费。
 2. 键盘布局保持默认。
 3. 安装类型选择 **“擦除磁盘并安装 Ubuntu”**。  
    ⚠️ 这是虚拟机内部的虚拟磁盘，**不会删除你本机 C 盘或 D 盘的数据**。
-4. 设置你的姓名、计算机名、用户名和密码。**请牢记，后面 sudo 和 SSH 都要用。**
-5. 登录选项：实验机建议 **不要求密码自动登录**，方便调试；生产环境请勿这样做。
-6. 等待安装完成（约 15–30 分钟），完成后点击 **“立即重启”**。
-7. 重启后，在 VMware 菜单栏选择 **“虚拟机” → “可移动设备” → “CD/DVD” → “断开连接”**，避免再次从 ISO 启动。
 
 ![安装类型：擦除磁盘并安装 Ubuntu](/vol1-linux/assets/ch01/07-ubuntu-install-type.png)
 
 *图 1-7　Ubuntu 安装程序的“安装类型”页面，选中“擦除磁盘并安装 Ubuntu”*
 
+4. 设置你的姓名、计算机名、用户名和密码。**请牢记，后面 sudo 和 SSH 都要用。**
+
 ![设置您的帐户](/vol1-linux/assets/ch01/08-ubuntu-account-setup.png)
 
 *图 1-8　设置账户：姓名 `huck`、计算机名 `huck-VMware-Virtual-Platform`、用户名 `huck`*
+
+5. 登录选项：实验机建议 **不要求密码自动登录**，方便调试；生产环境请勿这样做。
+6. 等待安装完成（约 15–30 分钟），完成后点击 **"立即重启"**。
+7. 重启后，在 VMware 菜单栏选择 **“虚拟机” → “可移动设备” → “CD/DVD” → “断开连接”**，避免再次从 ISO 启动。
 
 ---
 
@@ -174,8 +182,8 @@ Linux book 6.8.0-...-generic #...Ubuntu SMP ... x86_64 ... GNU/Linux
               total        used        free      shared  buff/cache   available
 Mem:           7.6Gi       1.2Gi       5.1Gi        12Mi       1.4Gi       6.1Gi
 Swap:            2Gi          0B        2Gi
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/sda2        38G   5.2G     31G   15% /
+Filesystem      Size   Used Avail Use% Mounted on
+/dev/sda2        38G   5.2G    31G   15% /
 ```
 
 如果能正常输出，VMware + Ubuntu 实验环境已就绪，后续章节的所有命令都可在此机器上执行。
@@ -211,7 +219,7 @@ vol1-linux/assets/ch01/
   09-ubuntu-login.png
 ```
 
-> 📌 本章截图已裁掉底部的 Windows 任务栏，聚焦 VMware 与安装程序界面本身。
+> 📌 本章截图已裁掉底部的 Windows 任务栏，聚焦 VMware 与安装程序界面本身。图片已嵌入对应步骤之后，随文阅读。
 
 ---
 
