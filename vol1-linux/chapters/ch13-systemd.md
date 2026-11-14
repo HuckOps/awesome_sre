@@ -1,10 +1,10 @@
 ﻿---
-title: "第 12 章 systemd 与服务管理"
+title: "第 13 章 systemd 与服务管理"
 ---
 
-# 第 12 章 systemd 与服务管理
+# 第 13 章 systemd 与服务管理
 
-> 第 8 章我们见过进程，也知道 1 号进程是系统的祖宗。在 Debian 13 上，1 号进程就是 systemd。它不仅是所有进程的父进程，还负责启动系统、管理服务、处理日志、定时任务、电源管理。对 SRE 来说，systemd 是日常最高频的工具之一：重启服务、查状态、看日志、设置开机自启，全靠它。本章把 systemd 从"一个奇怪的命令集"讲成一套可预测的服务管理体系。
+> 第 9 章我们见过进程，也知道 1 号进程是系统的祖宗。在 Debian 13 上，1 号进程就是 systemd。它不仅是所有进程的父进程，还负责启动系统、管理服务、处理日志、定时任务、电源管理。对 SRE 来说，systemd 是日常最高频的工具之一：重启服务、查状态、看日志、设置开机自启，全靠它。本章把 systemd 从"一个奇怪的命令集"讲成一套可预测的服务管理体系。
 
 > **本章目标**
 > - 能解释 systemd 是什么、1 号进程的作用，以及"unit（单元）"的概念。
@@ -30,7 +30,7 @@ systemd 把一切可管理的对象都称为 **unit（单元）**，以 `.xxx` �
 | --- | --- | --- |
 | service | `.service` | 后台服务，如 nginx、ssh、你自己的脚本 |
 | socket | `.socket` | 监听端口，有连接时才启动对应服务（按需启动） |
-| timer | `.timer` | 定时触发，类似 cron（见第 14 章对比） |
+| timer | `.timer` | 定时触发，类似 cron（见第 15 章对比） |
 | target | `.target` | 目标状态，如多用户模式、图形模式，相当于"运行级别" |
 | path | `.path` | 监听文件系统变化，变化后触发服务 |
 
@@ -141,7 +141,7 @@ WantedBy=multi-user.target
 各段说明：
 
 - **[Unit]**：元数据。`Description` 是描述；`After=network.target` 表示在网络就绪后再启动此服务（只是启动顺序建议，不是强依赖）。
-- **[Service]**：核心。`Type=simple` 表示进程启动后立即视为就绪；`ExecStart` 是启动命令；`Restart=always` 表示进程异常退出总是重启；`RestartSec=5` 重启前等 5 秒；`User=root` 以 root 运行（生产上建议改成专用服务账号，见第 5 章）。
+- **[Service]**：核心。`Type=simple` 表示进程启动后立即视为就绪；`ExecStart` 是启动命令；`Restart=always` 表示进程异常退出总是重启；`RestartSec=5` 重启前等 5 秒；`User=root` 以 root 运行（生产上建议改成专用服务账号，见第 6 章）。
 - **[Install]**：`WantedBy=multi-user.target` 表示在多用户模式下启用此服务，即开机自启。
 
 ### 注册并启动
@@ -206,7 +206,7 @@ systemctl set-default graphical.target
 
 ## 12.6 timer：systemd 的定时任务
 
-systemd 也能做定时任务，用 `.timer` + `.service` 配对，功能上类似 cron（第 14 章专门讲 cron，两者可选其一，系统服务类定时任务推荐 systemd timer，因为能统一用 `systemctl`/`journalctl` 管理）。
+systemd 也能做定时任务，用 `.timer` + `.service` 配对，功能上类似 cron（第 15 章专门讲 cron，两者可选其一，系统服务类定时任务推荐 systemd timer，因为能统一用 `systemctl`/`journalctl` 管理）。
 
 简单示例：每小时跑一次 heartbeat 检查。
 
@@ -248,7 +248,7 @@ systemctl enable --now heartbeat-check.timer
 systemctl list-timers --all
 ```
 
-systemd timer 和 cron 的选型建议：任务与系统服务强相关、需要随服务一起启停、或日志要统一进 journald，用 systemd timer；简单的脚本定时执行、与系统服务无关，用 cron 更轻量（第 14 章专门讲 cron）。
+systemd timer 和 cron 的选型建议：任务与系统服务强相关、需要随服务一起启停、或日志要统一进 journald，用 systemd timer；简单的脚本定时执行、与系统服务无关，用 cron 更轻量（第 15 章专门讲 cron）。
 
 ## 12.7 cgroup：systemd 的资源隔离
 
@@ -322,7 +322,7 @@ systemd-analyze critical-chain # 显示启动依赖链，找出拖慢启动的�
 | timer | 系统级定时任务，OnCalendar 定时，Persistent 补执行，替代部分 cron 场景 |
 | mask | 强制禁止服务启动，慎用，可能导致依赖服务也无法启动 |
 
-本章讲了"怎么让程序稳定地在后台运行、开机自启、崩溃重启"。下一章（第 13 章《Shell 脚本入门》）我们学习用脚本把零散命令串成可自动化的任务，为第 16 章的综合实战打基础。
+本章讲了"怎么让程序稳定地在后台运行、开机自启、崩溃重启"。下一章（第 14 章《Shell 脚本入门》）我们学习用脚本把零散命令串成可自动化的任务，为第 17 章的综合实战打基础。
 
 ---
 

@@ -1,8 +1,8 @@
 ﻿---
-title: "第 9 章 软件包管理：apt 与 dpkg"
+title: "第 10 章 软件包管理：apt 与 dpkg"
 ---
 
-# 第 9 章 软件包管理：apt 与 dpkg
+# 第 10 章 软件包管理：apt 与 dpkg
 
 > 前八章我们学会了看文件、管进程，但有一件事还没碰：**软件是怎么进到系统里去的**。看到教程里写 `apt install nginx` 就照抄，是新手常态；抄完一出错只会重装系统，是新手困境。这一章把 apt 和 dpkg 这套「软件包管理（Package Management）」体系讲透——装、卸、查、锁、清理，全流程都覆盖。能不能管好一台生产服务器上的软件，很大程度上就看这一章的基本功。
 
@@ -193,7 +193,7 @@ mv /etc/apt/sources.list.d/debian.sources.bak /etc/apt/sources.list.d/debian.sou
 E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)
 ```
 
-权限不足——当前用户不是 root，用 sudo（详见第 5 章《用户、群组与权限》），或者回到 `instabox ssh book` 的 root 会话。
+权限不足——当前用户不是 root，用 sudo（详见第 6 章《用户、群组与权限》），或者回到 `instabox ssh book` 的 root 会话。
 
 ```text
 E: The repository 'https://mirrors.tuna.tsinghua.edu.cn/debian trixie Release' does not have a Release file.
@@ -292,7 +292,7 @@ apt autoremove          # 删「当初被自动装进来、如今没人再依赖
 
 - **remove**：卸磨杀驴但留个好念想。`/etc` 下这个包的配置文件保留，状态变成 `rc`（下面 9.7 讲）。
 - **purge**：斩草除根。配置文件也清掉，`dpkg -l` 里连痕迹都不剩。
-- **autoremove**：大扫除利器。你 apt install A 时它顺手装的依赖 B、C，A 卸载后就没人用了，autoremove 会把它们请出去。**长期不 autoremove 的机器会悄悄囤几百 MB 到几 GB 的孤儿包**，这是「磁盘莫名变满」的高频答案之一（详见第 10 章《磁盘与存储管理》）。
+- **autoremove**：大扫除利器。你 apt install A 时它顺手装的依赖 B、C，A 卸载后就没人用了，autoremove 会把它们请出去。**长期不 autoremove 的机器会悄悄囤几百 MB 到几 GB 的孤儿包**，这是「磁盘莫名变满」的高频答案之一（详见第 11 章《磁盘与存储管理》）。
 
 常见错误：卸载一个被其他包依赖的软件，apt 会拒绝并列出「谁依赖你」：
 
@@ -572,13 +572,13 @@ apt autoclean    # 只删「仓库里已经没有对应新版」的过期 deb，
 结合我们第一章就记住的事实：InstaBox 云电脑的**持久盘 20 GiB 挂在 `/data`，系统盘只有 16 GiB ext4**。apt 缓存、Docker 镜像、构建产物最爱堆系统盘，这就是为什么第 1 章的铁律说「数据放持久盘，别往系统盘堆东西」。养成几个和本章直接相关的空间习惯：
 
 ```bash
-df -h /                 # 先看系统盘用了多少（详见第 10 章）
+df -h /                 # 先看系统盘用了多少（详见第 11 章）
 du -sh /var/cache/apt/archives   # 缓存到底占多少
 apt autoclean           # 日常清理
 apt autoremove          # 顺手清孤儿包（9.4.2 讲过）
 ```
 
-> **SRE 贴士（生产 vs 实验室）**：实验室里磁盘满了 `apt clean` 一把梭；生产服务器上清缓存只是缓兵之计，真正的答案是「监控 + 根源治理」——软件包缓存大头往往来自频繁的构建或 CI，要么挪到独立分区、要么镜像缓存，要么上镜像仓库而不是每台机器各下一遍。另外重申一次：**本章所有安装卸载动作，实验室以 root 演示没问题，生产上请用普通账号 + sudo，让每一次 apt 操作都留痕在 auth.log 里**（审计日志详见第 14 章《定时任务与系统日志》）。
+> **SRE 贴士（生产 vs 实验室）**：实验室里磁盘满了 `apt clean` 一把梭；生产服务器上清缓存只是缓兵之计，真正的答案是「监控 + 根源治理」——软件包缓存大头往往来自频繁的构建或 CI，要么挪到独立分区、要么镜像缓存，要么上镜像仓库而不是每台机器各下一遍。另外重申一次：**本章所有安装卸载动作，实验室以 root 演示没问题，生产上请用普通账号 + sudo，让每一次 apt 操作都留痕在 auth.log 里**（审计日志详见第 15 章《定时任务与系统日志》）。
 
 <br>
 
@@ -592,7 +592,7 @@ apt autoremove          # 顺手清孤儿包（9.4.2 讲过）
 
 ## 9.11 unattended-upgrades：安全更新的自动挡
 
-Debian 的安全补丁来得勤，人工跟总有惰性，unattended-upgrades 就是官方的「自动安装安全更新」方案。它默认随系统安装（`dpkg -l unattended-upgrades` 能看到 `ii`），核心配置在 `/etc/apt/apt.conf.d/50unattended-upgrades`，由 `apt-daily-upgrade.timer` 定时唤醒（systemd 定时器详见第 12 章《systemd 与服务管理》）。
+Debian 的安全补丁来得勤，人工跟总有惰性，unattended-upgrades 就是官方的「自动安装安全更新」方案。它默认随系统安装（`dpkg -l unattended-upgrades` 能看到 `ii`），核心配置在 `/etc/apt/apt.conf.d/50unattended-upgrades`，由 `apt-daily-upgrade.timer` 定时唤醒（systemd 定时器详见第 13 章《systemd 与服务管理》）。
 
 它装了什么、跑没跑，一条命令看状态：
 
