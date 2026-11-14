@@ -16,70 +16,49 @@
     "type": "github",
     "url": "https://github.com/HuckOps/awesome_sre"
   },
-  "navigation": [
-    {
-      "group": "系列首页",
-      "pages": [
-        "index.mdx"
-      ]
-    },
-    {
-      "group": "第一卷 Linux",
-      "pages": [
-        "vol1-linux/README",
-        "vol1-linux/chapters/ch00-intro",
-        "vol1-linux/chapters/ch01-setup",
-        "vol1-linux/chapters/ch02-first-login",
-        "vol1-linux/chapters/ch03-shell-and-fs",
-        "vol1-linux/chapters/ch04-file-ops",
-        "vol1-linux/chapters/ch05-users-permissions",
-        "vol1-linux/chapters/ch06-text-processing",
-        "vol1-linux/chapters/ch07-vim",
-        "vol1-linux/chapters/ch08-processes",
-        "vol1-linux/chapters/ch09-packages",
-        "vol1-linux/chapters/ch10-disk-storage",
-        "vol1-linux/chapters/ch11-network",
-        "vol1-linux/chapters/ch12-systemd",
-        "vol1-linux/chapters/ch13-shell-scripting",
-        "vol1-linux/chapters/ch14-cron-logs",
-        "vol1-linux/chapters/ch15-firewall-backup",
-        "vol1-linux/chapters/ch16-web-server-deploy",
-        "vol1-linux/chapters/app-a-cheatsheet",
-        "vol1-linux/chapters/app-b-shortcuts",
-        "vol1-linux/chapters/app-c-glossary"
-      ]
-    },
-    {
-      "group": "第二卷 网络与系统服务",
-      "pages": [
-        "vol2-network/README"
-      ]
-    },
-    {
-      "group": "第三卷 数据库与中间件",
-      "pages": [
-        "vol3-database/README"
-      ]
-    },
-    {
-      "group": "第四卷 Docker & Kubernetes",
-      "pages": [
-        "vol4-docker-k8s/README"
-      ]
-    },
-    {
-      "group": "第五卷 可观测性",
-      "pages": [
-        "vol5-observability/README"
-      ]
-    },
-    {
-      "group": "第六卷 SRE 实战",
-      "pages": [
-        "vol6-sre-practice/README"
-      ]
-    }
-  ],
+  "navigation": {
+    "系列首页": [
+      "index.mdx"
+    ],
+    "第一卷 Linux": [
+      "vol1-linux/README",
+      "vol1-linux/chapters/ch00-intro",
+      "vol1-linux/chapters/ch01-setup",
+      "vol1-linux/chapters/ch02-first-login",
+      "vol1-linux/chapters/ch03-shell-and-fs",
+      "vol1-linux/chapters/ch04-file-ops",
+      "vol1-linux/chapters/ch05-users-permissions",
+      "vol1-linux/chapters/ch06-text-processing",
+      "vol1-linux/chapters/ch07-vim",
+      "vol1-linux/chapters/ch08-processes",
+      "vol1-linux/chapters/ch09-packages",
+      "vol1-linux/chapters/ch10-disk-storage",
+      "vol1-linux/chapters/ch11-network",
+      "vol1-linux/chapters/ch12-systemd",
+      "vol1-linux/chapters/ch13-shell-scripting",
+      "vol1-linux/chapters/ch14-cron-logs",
+      "vol1-linux/chapters/ch15-firewall-backup",
+      "vol1-linux/chapters/ch16-web-server-deploy",
+      "vol1-linux/chapters/app-a-cheatsheet",
+      "vol1-linux/chapters/app-b-shortcuts",
+      "vol1-linux/chapters/app-c-glossary"
+    ],
+    "第二卷 网络与系统服务": [
+      "vol2-network/README"
+    ],
+    "第三卷 数据库与中间件": [
+      "vol3-database/README"
+    ],
+    "第四卷 Docker & Kubernetes": [
+      "vol4-docker-k8s/README"
+    ],
+    "第五卷 可观测性": [
+      "vol5-observability/README"
+    ],
+    "第六卷 SRE 实战": [
+      "vol6-sre-practice/README"
+    ]
+  },
   "footerSocials": {
     "github": "https://github.com/HuckOps/awesome_sre"
   }
