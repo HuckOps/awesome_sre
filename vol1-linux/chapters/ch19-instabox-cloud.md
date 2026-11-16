@@ -338,7 +338,7 @@ instabox create --name job2 --snapshot base  # 从快照开一台新机器
 
 **症状**：执行 `instabox create --name x --template universal`（或任何 `--template`），被拒，错误信息里带 `403 template_not_allowed`。
 
-**原因**：模板是付费能力，免费档只给默认模板 `agent-browser`。默认模板该有的都有了（Docker、Node.js 22、Python+uv、Go、Rust、C 工具链、桌面+Chromium），对本书足足够。
+**原因**：模板是付费能力，免费档只给默认模板 `agent-browser`。默认模板该有的都有了（Docker、Node.js 22、Python+uv、Go、Rust、C 工具链、桌面+Chromium），对本书足够。
 
 **对策**：乖乖用默认模板；真要别的环境，先存快照再从快照开机——**从快照创建机器不受此限**。
 

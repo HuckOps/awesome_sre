@@ -11,7 +11,7 @@ title: "第 10 章 软件包管理：apt 与 dpkg"
 > - 能读懂 Debian 13 的 deb822 软件源配置，独立完成换源、`apt update / upgrade`、安装/卸载/清理的完整流程。
 > - 能用 `dpkg -l / -L / -S / -I` 查询软件包与文件的归属，会用 `apt-mark hold` 锁定生产版本，并知道 unattended-upgrades 的作用与取舍。
 
-<br>
+<br />
 
 ## 9.1 为什么不能随便 ./configure
 
@@ -37,7 +37,7 @@ make install
 
 > **SRE 贴士（生产 vs 实验室）**：在 InstaBox 云电脑上你怎么折腾都行，反正快照一存、机器一重建就回到干净状态，这就是实验室环境给的特权。但生产服务器是「资产」：每一台装了什么、什么版本、有没有安全补丁，合规审计时都要说得出来。源码编译的软件脱离了包数据库，审计时是黑洞。哪怕生产上真编译了，也要用配置管理工具（如 Ansible，卷 2）把过程记录下来，让「重建一台一模一样的机器」成为可能。
 
-<br>
+<br />
 
 ## 9.2 三层结构：上游源码、.deb、APT 仓库
 
@@ -76,7 +76,7 @@ Debian 世界（以及 Ubuntu、Linux Mint 等一大票发行版）的软件分�
 
 dpkg 和 apt 的关系，一句话：**dpkg 只管单机的包，apt 负责从仓库把包连依赖一起请下来再交给 dpkg 装。** 用 dpkg 装一个 `.deb`，它不知道去哪找依赖；用 apt 安装，它先看索引、算依赖、下载齐一套包，再逐层调用 dpkg。所以 apt 是「聪明的包管理器」，dpkg 是「老实的安装工」。
 
-<br>
+<br />
 
 ## 9.3 软件源配置：Debian 13 的 deb822 格式
 
@@ -208,7 +208,7 @@ W: GPG error: https://mirrors.tuna.tsinghua.edu.cn/debian trixie InRelease: The 
 
 签名校验失败——大概率是 Signed-By 指向的密钥环不对，或者终端机和云电脑之间有什么东西篡改了流量。官方和 TUNA 都用同一个 `debian-archive-keyring.gpg`，正常情况不会出这错，真遇到了先检查你机器是不是被塞了代理软件。
 
-<br>
+<br />
 
 ## 9.4 apt 日常操作：更新、升级、安装、卸载
 
@@ -304,7 +304,7 @@ E: Unable to correct problems, you have held broken packages.
 
 不用慌，这不是系统坏了，是 apt 在保护你：**它算出你这一步会把依赖树搞崩，于是拒绝执行**。处理顺序：先看清是哪个包出的问题，`apt remove` 换成反向操作，或者 `apt --fix-broken install` 让求解器尝试修复。
 
-<br>
+<br />
 
 ## 9.5 查询软件：search、show、list
 
@@ -357,7 +357,7 @@ apt list --installed | wc -l
 
 > **SRE 贴士**：新机器上手第一件事就是 `apt list --installed` 扫一眼，把从不认识的包记下来查。很多「机器怎么变慢了」的悬案，答案就在这份清单里的某个多余服务上。另外 `apt list` 输出带 `[installed]`/`[upgradable]` 标记，可以直接用 `grep` 过滤，比 `dpkg -l` 更适合日常快查；dpkg 的长项在 9.7 讲。
 
-<br>
+<br />
 
 ## 9.6 锁定版本：apt-mark hold
 
@@ -381,7 +381,7 @@ nginx set on hold.
 
 > **SRE 贴士（生产 vs 实验室）**：实验室里你的座右铭是「全都要最新」，因为环境弄坏就重建；生产上的座右铭是「没有理由不动的东西就别动」，因为每次升级都是有风险的变更。version pinning（版本锁定）还有更精细的玩法——给某个源或某个包版本号打优先级（apt preferences），那是配置管理（卷 2）的领域，本章记住 `apt-mark hold` 这个开关就够入门了。
 
-<br>
+<br />
 
 ## 9.7 dpkg：单机包管理的老黄牛
 
@@ -483,7 +483,7 @@ dpkg -I ./hello_2.10-3_amd64.deb
 
 读到 `Depends` 就是要动手的信号：dpkg -i 不会给你准备依赖，先 `apt show libc6` 之类的确认齐了没。
 
-<br>
+<br />
 
 ## 9.8 安装本地 .deb：dpkg -i 与 apt -f install 的标准舞步
 
@@ -556,7 +556,7 @@ apt 自动算出了缺的两个依赖、从仓库装好、最后把 mytool 配�
 
 > **SRE 贴士**：内网离线装机的标准做法，就是在能上网的机器上 `apt-get download 包名`（只下载不安装）攒一批 `.deb`，再用 `dpkg -i *.deb && apt --fix-broken install` 灌到内网机器上。apt 装过的 deb 下载缓存默认在 `/var/cache/apt/archives`，`apt clean` 清掉之前，那里就是一个现成的离线弹药库（下一节讲空间管理时你会用到这点）。
 
-<br>
+<br />
 
 ## 9.9 缓存与磁盘空间：apt clean 的时机
 
@@ -580,7 +580,7 @@ apt autoremove          # 顺手清孤儿包（9.4.2 讲过）
 
 > **SRE 贴士（生产 vs 实验室）**：实验室里磁盘满了 `apt clean` 一把梭；生产服务器上清缓存只是缓兵之计，真正的答案是「监控 + 根源治理」——软件包缓存大头往往来自频繁的构建或 CI，要么挪到独立分区、要么镜像缓存，要么上镜像仓库而不是每台机器各下一遍。另外重申一次：**本章所有安装卸载动作，实验室以 root 演示没问题，生产上请用普通账号 + sudo，让每一次 apt 操作都留痕在 auth.log 里**（审计日志详见第 15 章《定时任务与系统日志》）。
 
-<br>
+<br />
 
 ## 9.10 Snap 与最小安装原则
 
@@ -627,7 +627,7 @@ tail -n 8 /var/log/unattended-upgrades/unattended-upgrades.log
 
 > **SRE 贴士（生产 vs 实验室）**：自动安全更新不是「开了就万事大吉」。真正的生产姿势是：开 `trixie-security` 自动更新 + 关键服务（数据库、容器运行时）该 hold 的 hold 住（9.6 节）+ 用监控盯服务存活 + 保留「变更记录」。自动补丁也可能和锁定策略打架——比如你 hold 了某个包、它的安全补丁恰好在这个包里，这种情况要么接受风险并记录，要么安排人工变更窗口，别两头都想占。
 
-<br>
+<br />
 
 ## 本章小结
 

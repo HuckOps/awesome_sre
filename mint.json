@@ -16,7 +16,7 @@
       {
         "group": "第一卷 Linux",
         "pages": [
-          "vol1-linux/README",
+          "vol1-linux",
           {
             "group": "第一篇 导读与准备",
             "pages": [
@@ -82,23 +82,23 @@
       },
       {
         "group": "第二卷 网络与系统服务",
-        "pages": ["vol2-network/README"]
+        "pages": ["vol2-network"]
       },
       {
         "group": "第三卷 数据库与中间件",
-        "pages": ["vol3-database/README"]
+        "pages": ["vol3-database"]
       },
       {
         "group": "第四卷 Docker & Kubernetes",
-        "pages": ["vol4-docker-k8s/README"]
+        "pages": ["vol4-docker-k8s"]
       },
       {
         "group": "第五卷 可观测性",
-        "pages": ["vol5-observability/README"]
+        "pages": ["vol5-observability"]
       },
       {
         "group": "第六卷 SRE 实战",
-        "pages": ["vol6-sre-practice/README"]
+        "pages": ["vol6-sre-practice"]
       }
     ]
   },

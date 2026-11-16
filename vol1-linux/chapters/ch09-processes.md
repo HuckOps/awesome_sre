@@ -71,7 +71,7 @@ shell 执行 `sleep 100` 的完整过程：
 
 > **SRE 贴士**：写运维脚本时，`$$` 是当前 shell 的 PID，`$PPID` 是父进程的 PID（详见第 14 章《Shell 脚本入门》）。理解了 fork/exec 就能理解两件事：为什么 systemd 是 1 号进程且是万进程之祖；为什么孤儿进程会被 1 号进程「收养」并回收——父进程死了，子进程的 PPID 就变成 1，不会没人管。
 
-<br>
+<br />
 
 ## 8.2 ps：进程的一张快照
 
@@ -627,7 +627,7 @@ top              # 再看头部：load 开始往下走
 
 这一章把镜头从文件转向进程，四件事请带走：
 
-1. **进程是跑着的程序**，靠 PID 认人、靠 PPID 找爹；fork + exec 两步诞生新进程；`ps aux`（BSD 风格，看 CPU/内存）和 `ps -ef`（System V 风格，看父子关系）是两大快照工具，STAT 状态码表（R/S/D/T/Z + s/+/<、N）要会念。
+1. **进程是跑着的程序**，靠 PID 认人、靠 PPID 找爹；fork + exec 两步诞生新进程；`ps aux`（BSD 风格，看 CPU/内存）和 `ps -ef`（System V 风格，看父子关系）是两大快照工具，STAT 状态码表（R/S/D/T/Z + s/+/&lt;、N）要会念。
 2. **top 的读法**：头部三行（负载/任务/CPU）比进程列表更重要；load average 要和 CPU 核数比，load 高不等于 CPU 忙，先排 I/O；P/M/1 三个快捷键覆盖日常。
 3. **信号的礼仪**：先 TERM（15）后 KILL（9），HUP 用于优雅重载；killall 按名杀、pkill 按模式杀，杀前先 `pgrep` 预演；生产上 systemd 托管的服务用 systemctl 管理。
 4. **任务与终端解耦**：`&`、Ctrl-Z、`jobs`/`fg`/`bg` 是入门，`nohup`/`setsid`/`disown` 保命，tmux 提供完整的工作现场；叠加 InstaBox 的 exec 10 分钟上限，「后台 + 日志 + tail」是本书环境的标准长任务姿势。free -h 只看 available、vmstat 1 5 看 r/b/si/so、iostat 看 %util/await、dmesg 看内核大事——这套组合够你应对九成日常巡检。

@@ -11,7 +11,7 @@ title: "第 15 章 定时任务与系统日志"
 > - 能用 `journalctl`（`-e -f -u -b --since/--until -p`）和 `/var/log` 三剑客回答「这个服务昨晚发生了什么」，并用 `logger`、`logrotate` 给自己的脚本接上日志与轮转。
 > - 能按「curl → ss → systemctl status → journalctl --since」的时间线独立完成一次网站故障定位，并说出 cron 与 systemd timer 的分工与选择依据。
 
-<br>
+<br />
 
 ## 14.1 cron 是什么：让时间当触发器
 
@@ -37,7 +37,7 @@ command -v crontab && systemctl status cron | head -5
 
 （没有 crontab 就 `apt install cron`，安装方法详见第 10 章《软件包管理：apt 与 dpkg》；服务状态看不懂就回第 13 章复习 `systemctl status` 的三行信息。）cron 的工作方式：`cron` 守护进程常驻内存，每分钟醒一次，翻一遍所有 crontab，「现在该执行的」就启动对应的用户 shell 跑命令，跑完把结果（如果有输出）尝试寄一封邮件给任务主人。
 
-<br>
+<br />
 
 ## 14.2 crontab 五段式：逐字段拆开看
 
@@ -98,7 +98,7 @@ crontab（cron table，cron 的任务表）里一行就是一个任务，格式�
 
 不确定某段写得对不对？第 4 章说的帮助三件套在这里的终极形态是 `man 5 crontab`——**注意是 5 不是 1**，这是「文件格式手册」的节号（manual section 5），`man 1 crontab` 讲的是命令行工具本身（-e/-l/-r），两个都要看，别只看一个就以为读完了。
 
-<br>
+<br />
 
 ## 14.3 crontab 命令与编辑器那点事
 
@@ -128,7 +128,7 @@ nano 的用法很简单：方向键移动，直接打字，底部一排 `^O`（C
 
 > **警告**：`crontab -r` **删除整个 crontab 文件，不弹确认、不进回收站**。误敲的经典现场：本来想 `-l` 看列表，手指一滑打成 `-r`，多年积累的几十条定时任务连同注释一秒清零，且 cron 不保留任何历史版本。安全替代做法：一、只想删某几条任务，用 `crontab -e` 进去手动注释或删除对应行，绝不用 `-r`；二、定期 `crontab -l > /data/home/backup/crontab-$(date +%F).txt` 留档（备份习惯详见第 16 章）；三、已经把 crontab 当「基础设施代码」管理的团队，直接在版本库里维护、用 `crontab file` 从文件装载，改任务走代码评审，和改生产代码一个待遇；四、真误删了也别慌，先停手别再写新任务，看看有没有最近一次 `-l` 导出的留档或监控系统里的任务记录可回溯。
 
-<br>
+<br />
 
 ## 14.4 系统级 cron：/etc/crontab 与 /etc/cron.d/
 
@@ -157,7 +157,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 `/etc/cron.d/` 是给软件包用的「投放口」：装个备份代理、监控 agent，它把 `包名` 文件往这一丢，里面照样是六字段格式。自己往这写文件时注意两条纪律：**文件名不能带小数点**（`my.job` 会被 run-parts 风格的工具忽略）、文件权限 644、属主 root。它比 `/etc/crontab` 干净在哪：一文件一任务，卸载软件时删文件就行，不会和你的手写任务缠在一起。
 
-<br>
+<br />
 
 ## 14.5 @快捷写法：六个特殊关键字
 
@@ -176,7 +176,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 `@reboot` 值得多说一句：它跑在 cron 守护进程启动的时刻，**适合「开机一次性」的准备任务**（挂载一个目录、清理上次崩溃的残留、给监控注册本机）。但它替代不了 systemd 服务——它不管依赖顺序（网络没好它就跑）、不管进程守护（跑完就完）、系统里也没有它的运行状态可查。要「开机常驻」就用第 13 章的 `systemctl enable`，`@reboot` 只是「开机清爽地跑一次」。
 
-<br>
+<br />
 
 ## 14.6 cron 的三个坑：PATH、% 与没人收的邮件
 
@@ -218,7 +218,7 @@ cron 的默认行为：任务有任何标准输出/标准错误，就尝试**发
 
 > **SRE 贴士（生产 vs 实验室）**：实验室里 cron 任务失败的代价是你的一次困惑；生产上三条坑各有各的死法：PATH 坑让备份脚本静默不干活，一个月后磁盘故障才发现「上次成功备份是两个月前」；% 坑让日志里出现 `+` 和半行乱码；邮件坑最阴——监控系统本身没配好输出，故障时想查 cron 干了什么，什么都没有。生产上的对应纪律：任务的每一行输出都必须有去处（重定向到受管日志文件，再由 logrotate 接管，见 14.11）；PATH 显式声明；任务写进版本库并走评审。另外别忘了第 1 章的事实：这台云电脑空闲 30 分钟自动暂停。如实说明 suspend 期间的定时任务行为——suspend 时文件、内存、进程整体冻结保留，机器不运行，cron 也就不会执行；恢复之后，cron 按「恢复时刻的当前时间」重新排班，**冻结期间错过的时间点不补跑**（这是 cron 的通用行为）。唯一有补跑希望的是 anacron 接管的 daily/weekly/monthly（14.4 讲过），但它靠开机触发，suspend/resume 不重启就不触发，别当万能补丁。至于「恢复后 cron 守护进程是否原样活着、有没有延迟」这类细节依平台实现而异，别信网上的二手结论——练习 1 就是你的观察实验：挂上每分钟任务，suspend 十分钟再 resume，看日志断在哪、从几点接着记，用自己的眼睛下结论。生产上同理：凡是「错过要补、依赖要守」的任务，答案在 14.7 的 timer 加 `Persistent=true`。
 
-<br>
+<br />
 
 ## 14.7 systemd timer：另一种「到点执行」
 
@@ -294,7 +294,7 @@ timer 的两个独门优势：**触发时间可以被 `systemctl list-timers` �
 
 结论一句话：**新写的部署级定时任务优先 timer（补跑、依赖、日志三样都是刚需）；需要兼容非 systemd 环境、或管理别人留下的 cron 生态时，老实把 cron 的三个坑防好**。本章练习会让你两种都写一遍，自己感受。
 
-<br>
+<br />
 
 ## 14.8 日志体系：从 syslog 到 journald
 
@@ -357,7 +357,7 @@ Install: curl:amd64 (8.x.y), libcurl4t64:amd64 (…)
 
 三剑客的排障价值：`dpkg.log` 逐包记录装了什么、什么时候、哪个版本——「这台机器上的 nginx 谁装的、哪天的」用它回答；`apt/history.log` 记录每条 apt 命令和结果——「上礼拜谁升级了系统、升了什么包」用它回答；`/var/log/fsck`、`dmesg` 老两位留给启动和内核事件（内核消息现在也能用 `journalctl -k` 看，见下一节）。**「/var/log 下什么都没有」的排查惯性要改掉了：Debian 13 的第一现场是 journal，文件在其次**——这是新一代运维和十年前教材的最大差别。
 
-<br>
+<br />
 
 ## 14.9 journalctl 全家桶：二进制日志的正确打开方式
 
@@ -400,7 +400,7 @@ Nov 13 09:51:33 book sshd[812]: Accepted publickey for root from 10.0.0.5 port 5
 
 > **警告**：`journalctl --vacuum-time=7d`（以及 `--vacuum-size=500M`）清理的是**归档的旧日志文件**，它不碰「当前活跃」的日志文件——所以清理后 `--disk-usage` 常常降得没有预期多，这不是命令没用，是设计如此。更要注意的是：vacuum 是**不可逆删除**，故障复盘没做完就 vacuum，等于亲手销毁证据。安全替代做法：一、先 `journalctl --disk-usage` 量一下实际占用再决定动不动手（默认配置下 journal 上限一般是所在文件系统的 10%，以你量到的数为准）；二、要「当场腾空间」但复盘还没做完，先用 `journalctl -u nginx --no-pager > /data/home/nginx.log` 把要留的证据导出到持久盘，再 vacuum；三、根治靠改 `/etc/systemd/journald.conf`（如 `SystemMaxUse=500M`）并 `systemctl restart systemd-journald`，改配置比事后 vacuum 体面——后者只是删证据，前者从源头控总量。
 
-<br>
+<br />
 
 ## 14.10 logger：给自己的脚本接上日志通道
 
@@ -422,7 +422,7 @@ Nov 13 09:52:44 book backup[1903]: 备份失败：磁盘只读
 
 > **SRE 贴士**：判断「一个任务昨晚有没有正常跑」，别急着翻脚本自己的日志文件——先 `journalctl -t backup --since yesterday` 一眼看状态事件（成功/失败的开场和收场），再决定要不要钻进流水明细。另一个少有人用的好习惯：把 `local0`~`local7` 这八个自定义 facility 分门别类（比如 `local1` 给备份、`local2` 给监控采集），`logger -p local1.info` 一打，`journalctl SYSLOG_FACILITY=1` 就能按类回捞——多脚本系统里，这比每个脚本各起一个日志文件清爽得多。
 
-<br>
+<br />
 
 ## 14.11 logrotate：日志的「保质期管理」
 
@@ -493,7 +493,7 @@ man 8 logrotate                         # 完整手册在手
 
 （`-d` 会打印它「将要做什么」的一大段，验证配置正确性的标准姿势。）两个补充事实：`/var/lib/logrotate/status`（state 文件）记录「每个日志文件上次轮转是哪一天」，logrotate 靠它决定今天该不该切——**误删它，所有日志会被当成「从没切过」，下次全部重切**；其二，Debian 上的每日触发不是 cron 五段式而是 `/etc/cron.daily/logrotate` 脚本（第 14.4 讲过的投放目录），所以「我的日志怎么每天半夜被切」——去那看。
 
-<br>
+<br />
 
 ## 14.12 实战排障案例：网站挂了，从 curl 到 journalctl
 
@@ -514,7 +514,7 @@ man 8 logrotate                         # 完整手册在手
 
 > **SRE 贴士（生产 vs 实验室）**：实验室里「恢复留档」可以是从 `/data/home/backup` 拷回文件，五分钟搞定；生产上同样一套流程要升级：变更用「金丝雀发布、逐步放量」、配置变更走评审进 git、监控告警在故障发生 30 秒内就到你手机（而不是早上 9:47）。但唯一不变的是顺序——**curl → ss → systemctl status → journalctl --since**，这套「从现象到根因」的下钻路径，在一台机器和生产成百上千台集群上完全同构。卷 5 的监控体系会把这套人工流程变成自动化的告警聚合，现在练熟的是底层手感。
 
-<br>
+<br />
 
 ## 14.13 集中日志展望：卷 5 见
 
@@ -522,7 +522,7 @@ man 8 logrotate                         # 完整手册在手
 
 **集中式日志（centralized logging）** 是答案：每台机器上的 agent 把日志实时送到中央存储（Elasticsearch/Loki/ClickHouse 一类），一个查询界面搜全集群，按时间线还原跨服务故障。第 17 章的 health check、fail2ban、nginx 都会留下日志痕迹，卷 5《可观测性》会把它们汇成查询、仪表盘与告警——本章你只需要知道：**journalctl 练熟的「按 unit、按时间窗、按级别」三件套，正是集中日志平台的查询语言**；`logger` 打点、logrotate 管本地的习惯，就是将来 agent 转发的地基。别急，先把一台机器看明白。
 
-<br>
+<br />
 
 ## 本章小结
 
